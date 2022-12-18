@@ -1,0 +1,61 @@
+import pandas as pd
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+from tkinter import *
+def click_action():
+    user_input = var.get()
+    sum = 0
+    # Pętla do liczenia prognozy metodą średniej ruchomej prostej
+    for num in range(0, user_input, 1):
+        sum = sum + value[num]
+    avg = sum / user_input
+    avg = str(round(avg,4))
+    wynik.config(text=avg)
+
+#
+# Program zczytujący kurs Euro z ostatnich 30 dni ze strony internetowej liczący prognozę na najbliższy okres
+# metodą średniej ruchomej prostej dla wybranej wielkości "k" i pokazujący wykres kursu z tych ostatnich 30 dni
+
+# Czytanie tabeli ze strony internetowej
+table_MN = pd.read_html('https://exchangerate-euro.com/currency/PLN-zloty-poland/',
+attrs = {'class': 'table kurzy'})
+f'Total tables: {len(table_MN)}'
+df = table_MN[0]
+df.head()
+df.info()
+
+# Konwertowanie wartości zczytanych z tabeli
+date = df["Date"].astype('string')
+value = df["Rate per €1"].astype('float')
+
+# Interfejs
+root = Tk()
+root.title('Prognoza średniej ruchomej prostej')
+root.geometry("1024x720")
+
+label = Label(root, text='Podaj k dla średniej ruchomej prostej:')
+label.pack()
+
+var=IntVar()
+txt = Entry(root,textvariable=var)
+txt.pack()
+
+click = Button(root, text="Oblicz prognozę")
+click.config(command=click_action)
+click.pack()
+
+wynik = Label(root)
+wynik.pack()
+
+fig = Figure(figsize = (6, 6))
+a = fig.add_subplot(111)
+a.plot(value)
+a.invert_xaxis()
+
+canvas = FigureCanvasTkAgg(fig, master=root)
+canvas.draw()
+canvas.get_tk_widget().pack(side="bottom")
+
+
+root.mainloop()
+
