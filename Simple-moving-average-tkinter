@@ -31,22 +31,55 @@ value = df["Rate per €1"].astype('float')
 # Interfejs
 root = Tk()
 root.title('Prognoza średniej ruchomej prostej')
-root.geometry("1024x720")
+root.geometry("850x720")
+root.configure(bg="#e8e1c8")
 
+# Prośba o podanie liczby k okresów
 label = Label(root, text='Podaj k dla średniej ruchomej prostej:')
+label.configure(bg="#e8e1c8", font=(SOLID, 14))
 label.pack()
 
+przerwa1=Label(root, text=" ")
+przerwa1.configure(bg="#e8e1c8")
+przerwa1.pack()
+
+# Wstawianie liczby k okresów
 var=IntVar()
 txt = Entry(root,textvariable=var)
 txt.pack()
 
-click = Button(root, text="Oblicz prognozę")
+przerwa2=Label(root, text=" ")
+przerwa2.configure(bg="#e8e1c8")
+przerwa2.pack()
+
+# Przycisk obliczania prognozy
+click = Button(root, text="Oblicz prognozę",bg="#e6dab1", activebackground="#d1cab0")
 click.config(command=click_action)
 click.pack()
 
+przerwa3=Label(root, text=" ")
+przerwa3.configure(bg="#e8e1c8")
+przerwa3.pack()
+
+# Przedstawienie wyniku
+text=Label(root, text="Prognoza dla kolejnego okresu wynosi")
+text.configure(bg="#e8e1c8")
+text.pack()
+
+przerwa4=Label(root, text=" ")
+przerwa4.configure(bg="#e8e1c8")
+przerwa4.pack()
+
+# Wynik prognozy
 wynik = Label(root)
+wynik.configure(bg="#e8e1c8")
 wynik.pack()
 
+przerwa5=Label(root, text=" ")
+przerwa5.configure(bg="#e8e1c8")
+przerwa5.pack()
+
+# Wykres
 fig = Figure(figsize = (6, 6))
 a = fig.add_subplot(111)
 a.plot(value)
